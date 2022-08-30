@@ -1,0 +1,18 @@
+{
+    "name": "NSTAssureEASMBot",
+    "description": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "http://localhost:3978/api/messages",
+            "id": "3e64d3c0-27c1-11ed-8054-4956c7388cb7",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:3978/api/messages"
+        }
+    ],
+    "padlock": "",
+    "version": "2.0",
+    "path": "D:\\Code\\Bots\\nst-assure-easm-bot\\NSTAssureEASMBot.bot",
+    "overrides": null
+}

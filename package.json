@@ -1,0 +1,21 @@
+{
+  "name": "nst-assure-easm-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "d3v53c (Fazil Zaid)",
+  "license": "ISC",
+  "dependencies": {
+    "botbuilder": "^4.17.0",
+    "botbuilder-ai": "^4.17.0",
+    "dotenv": "^16.0.1",
+    "restify": "^8.6.1"
+  },
+  "devDependencies": {
+    "@types/restify": "^8.5.5",
+    "typescript": "^4.8.2"
+  }
+}
