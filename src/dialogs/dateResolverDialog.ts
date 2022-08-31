@@ -3,7 +3,14 @@
 
 import { TimexProperty } from '@microsoft/recognizers-text-data-types-timex-expression';
 import { InputHints, MessageFactory } from 'botbuilder';
-import { DateTimePrompt, DateTimeResolution, DialogTurnResult, PromptValidatorContext, WaterfallDialog, WaterfallStepContext } from 'botbuilder-dialogs';
+import {
+    DateTimePrompt,
+    DateTimeResolution,
+    DialogTurnResult,
+    PromptValidatorContext,
+    WaterfallDialog,
+    WaterfallStepContext
+} from 'botbuilder-dialogs';
 import { CancelAndHelpDialog } from './cancelAndHelpDialog';
 
 const DATETIME_PROMPT = 'datetimePrompt';
@@ -11,7 +18,9 @@ const WATERFALL_DIALOG = 'waterfallDialog';
 
 export class DateResolverDialog extends CancelAndHelpDialog {
 
-    private static async dateTimePromptValidator(promptContext: PromptValidatorContext<DateTimeResolution>): Promise<boolean> {
+    private static async dateTimePromptValidator(
+        promptContext: PromptValidatorContext<DateTimeResolution>
+    ): Promise<boolean> {
         if (promptContext.recognized.succeeded) {
             // This value will be a TIMEX. And we are only interested in a Date so grab the first result and drop the Time part.
             // TIMEX is a format that represents DateTime expressions that include some ambiguity. e.g. missing a Year.
