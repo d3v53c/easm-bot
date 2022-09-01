@@ -4,18 +4,18 @@
  */
 import { TextPrompt } from 'botbuilder-dialogs';
 import { DialogTestClient, DialogTestLogger } from 'botbuilder-testing';
-import { BookingDialog } from '../../dialogs/bookingDialog';
-import { FlightBookingRecognizer } from '../../dialogs/flightBookingRecognizer';
-import { MainDialog } from '../../dialogs/mainDialog';
+import { AccessRequestDialog } from '../../dialogs/access';
+import { Recognizer } from '../../dialogs/recognizer';
+import { MainDialog } from '../../dialogs/main';
 const assert = require('assert');
 const moment = require('moment-timezone');
 
 // tslint:disable max-classes-per-file
 /**
- * A mock FlightBookingRecognizer for our main dialog tests that takes
+ * A mock Recognizer for our main dialog tests that takes
  * a mock luis result and can set as isConfigured === false.
  */
-class MockFlightBookingRecognizer extends FlightBookingRecognizer {
+class MockRecognizer extends Recognizer {
     private isLuisConfigured: boolean;
     constructor(isConfigured, private mockResult?: any) {
         super(isConfigured);
@@ -35,7 +35,7 @@ class MockFlightBookingRecognizer extends FlightBookingRecognizer {
 /**
  * A simple mock for Booking dialog that just returns a preset booking info for tests.
  */
-class MockBookingDialog extends BookingDialog {
+class MockAccessRequestDialog extends AccessRequestDialog {
     constructor() {
         super('bookingDialog');
     }
@@ -52,11 +52,11 @@ class MockBookingDialog extends BookingDialog {
 }
 
 /**
- * A specialized mock for BookingDialog that displays a dummy TextPrompt.
+ * A specialized mock for AccessRequestDialog that displays a dummy TextPrompt.
  * The dummy prompt is used to prevent the MainDialog waterfall from moving to the next step
  * and assert that the main dialog was called.
  */
-class MockBookingDialogWithPrompt extends BookingDialog {
+class MockAccessRequestDialogWithPrompt extends AccessRequestDialog {
     constructor() {
         super('bookingDialog');
     }
@@ -68,10 +68,10 @@ class MockBookingDialogWithPrompt extends BookingDialog {
 }
 
 describe('MainDialog', () => {
-    it('Shows message if LUIS is not configured and calls BookingDialogDirectly', async () => {
-        const mockRecognizer = new MockFlightBookingRecognizer(false);
-        const mockBookingDialog = new MockBookingDialogWithPrompt();
-        const sut = new MainDialog(mockRecognizer, mockBookingDialog);
+    it('Shows message if LUIS is not configured and calls AccessRequestDialogDirectly', async () => {
+        const mockRecognizer = new MockRecognizer(false);
+        const mockAccessRequestDialog = new MockAccessRequestDialogWithPrompt();
+        const sut = new MainDialog(mockRecognizer, mockAccessRequestDialog);
         const client = new DialogTestClient('test', sut, null, [new DialogTestLogger()]);
 
         const reply = await client.sendActivity('hi');
@@ -79,9 +79,9 @@ describe('MainDialog', () => {
     });
 
     it('Shows prompt if LUIS is configured', async () => {
-        const mockRecognizer = new MockFlightBookingRecognizer(true);
-        const mockBookingDialog = new MockBookingDialog();
-        const sut = new MainDialog(mockRecognizer, mockBookingDialog);
+        const mockRecognizer = new MockRecognizer(true);
+        const mockAccessRequestDialog = new MockAccessRequestDialog();
+        const sut = new MainDialog(mockRecognizer, mockAccessRequestDialog);
         const client = new DialogTestClient('test', sut, null, [new DialogTestLogger()]);
 
         const reply = await client.sendActivity('hi');
@@ -101,8 +101,8 @@ describe('MainDialog', () => {
             it(testData.intent, async () => {
                 // Create LuisResult for the mock recognizer.
                 const mockLuisResult = JSON.parse(`{"intents": {"${ testData.intent }": {"score": 1}}, "entities": {"$instance": {}}}`);
-                const mockRecognizer = new MockFlightBookingRecognizer(true, mockLuisResult);
-                const bookingDialog = new MockBookingDialog();
+                const mockRecognizer = new MockRecognizer(true, mockLuisResult);
+                const bookingDialog = new MockAccessRequestDialog();
                 const sut = new MainDialog(mockRecognizer, bookingDialog);
                 const client = new DialogTestClient('test', sut, null, [new DialogTestLogger()]);
 
@@ -141,8 +141,8 @@ describe('MainDialog', () => {
             it(testData.jsonFile, async () => {
                 // Create LuisResult for the mock recognizer.
                 const mockLuisResult = require(`../../../testResources/${ testData.jsonFile }`);
-                const mockRecognizer = new MockFlightBookingRecognizer(true, mockLuisResult);
-                const bookingDialog = new MockBookingDialog();
+                const mockRecognizer = new MockRecognizer(true, mockLuisResult);
+                const bookingDialog = new MockAccessRequestDialog();
                 const sut = new MainDialog(mockRecognizer, bookingDialog);
                 const client = new DialogTestClient('test', sut, null, [new DialogTestLogger()]);
 

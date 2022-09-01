@@ -4,7 +4,7 @@
  */
 import { ActivityTypes, ConversationState, MemoryStorage, TestAdapter, TurnContext, UserState } from 'botbuilder';
 import { Dialog, DialogSet, DialogTurnStatus } from 'botbuilder-dialogs';
-import { DialogAndWelcomeBot } from '../../bots/dialogAndWelcomeBot';
+import { DialogAndWelcomeBot } from '../../bots/welcome';
 const assert = require('assert');
 
 /**

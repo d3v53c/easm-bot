@@ -12,8 +12,8 @@ import {
     WaterfallDialog,
     WaterfallStepContext
 } from 'botbuilder-dialogs';
-import { BookingDetails } from './bookingDetails';
-import { CancelAndHelpDialog } from './cancelAndHelpDialog';
+import { BookingDetails } from './context';
+import { CancelAndHelpDialog } from './cancel';
 
 const CONFIRM_PROMPT = 'confirmPrompt';
 const DATE_RESOLVER_DIALOG = 'dateResolverDialog';
@@ -21,13 +21,12 @@ const TEXT_PROMPT = 'textPrompt';
 const CHOICE_PROMPT = 'choicePrompt';
 const WATERFALL_DIALOG = 'waterfallDialog';
 
-export class BookingDialog extends CancelAndHelpDialog {
+export class AccessRequestDialog extends CancelAndHelpDialog {
     constructor(id: string) {
         super(id || 'bookingDialog');
 
         this.addDialog(new TextPrompt(TEXT_PROMPT))
             .addDialog(new ChoicePrompt(CHOICE_PROMPT))
-            .addDialog(new ConfirmPrompt(CONFIRM_PROMPT))
             .addDialog(new WaterfallDialog(WATERFALL_DIALOG, [
                 this.customerProjectIDStep.bind(this),
                 this.requestTypeStep.bind(this),
@@ -43,6 +42,7 @@ export class BookingDialog extends CancelAndHelpDialog {
      */
     private async customerProjectIDStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         const context = stepContext.options as BookingDetails;
+        console.log({ context }, "customerProjectIDStep")
 
         if (!context.destination) {
             const messageText = 'Enter Project ID :';
@@ -82,10 +82,16 @@ export class BookingDialog extends CancelAndHelpDialog {
 
         switch (stepContext.result.value) {
             case 'Tracker':
-                return await stepContext.context.sendActivity('Testing Tracker');
+                await stepContext.context.sendActivity('Testing Tracker');
+                break;
             default:
                 break;
         }
+
+        // Give the user instructions about what to do next
+        await stepContext.context.sendActivity('Type anything to see another card.');
+
+        return await stepContext.next(stepContext.result);
     }
 
     /**
@@ -93,8 +99,7 @@ export class BookingDialog extends CancelAndHelpDialog {
      */
     private async finalStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         const context = stepContext.options as BookingDetails;
-        console.log({ context })
-        if (stepContext.result === true) {
+        if (stepContext.result) {
             const bookingDetails = stepContext.options as BookingDetails;
 
             return await stepContext.endDialog(bookingDetails);

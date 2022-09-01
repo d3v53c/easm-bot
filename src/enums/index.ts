@@ -1,0 +1,12 @@
+/**
+ * Enum definitions for the EASM Bot
+ */
+
+
+export enum RequestType {
+    TRACKER_STATUS = 'TRACKER_STATUS',
+    REPORT_STATUS = 'REPORT_STATUS',
+    ACCESS_TRACKER = 'ACCESS_TRACKER',
+    ACCESS_REPORT = 'ACCESS_REPORT',
+    REQUEST_REVALIDATION = 'REQUEST_REVALIDATION',
+}

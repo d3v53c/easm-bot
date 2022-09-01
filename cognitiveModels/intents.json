@@ -1,0 +1,59 @@
+{
+    "intents": {
+        "TRACKER_STATUS": {
+            "utterances": [
+                "get tracker status for hgu-uj-e56843-002",
+                "provide tracker status for hjn-yh-e67432-776",
+                "what's the status of yhg-yh-d98734-023 tracker",
+                "what is the status of tracker for yxd-gb-s76093-007",
+                "tracker status ujh-ui-e76509-776",
+                "please provide the tracker status of project jzh-kx-e79639-772"
+            ]
+        },
+        "REPORT_STATUS": {
+            "utterances": [
+                "get me report status for hgu-uj-e56843-002",
+                "provide report status for hjn-yh-e67432-776",
+                "what's the status of yhg-yh-d98734-023 report",
+                "what is the status of report for yxd-gb-s76093-007",
+                "report status ujh-ui-e76509-776",
+                "please provide the report status of project jzh-kx-e79639-772"
+            ]
+        },
+        "ACCESS_TRACKER": {
+            "utterances": [
+                "get me tracker for hgu-uj-e56843-002",
+                "provide tracker for hjn-yh-e67432-776",
+                "yhg-yh-d98734-023 tracker please",
+                "i need tracker for yxd-gb-s76093-007",
+                "tracker ujh-ui-e76509-776",
+                "please provide the tracker of project jzh-kx-e79639-772"
+            ]
+        },
+        "ACCESS_REPORT": {
+            "utterances": [
+                "get me report for hgu-uj-e56843-002",
+                "provide report for hjn-yh-e67432-776",
+                "yhg-yh-d98734-023 report please",
+                "i need report for yxd-gb-s76093-007",
+                "report ujh-ui-e76509-776",
+                "please provide the report of project jzh-kx-e79639-772"
+            ]
+        },
+        "REQUEST_REVALIDATION": {
+            "utterances": [
+                "requesting revalidation for for hgu-uj-e56843-002",
+                "please revalidate hjn-yh-e67432-776",
+                "yhg-yh-d98734-023 revalidate please",
+                "i need revalidation for yxd-gb-s76093-007",
+                "revalidate ujh-ui-e76509-776",
+                "please initiate the revalidation of project jzh-kx-e79639-772"
+            ]
+        }
+    },
+    "entities": {
+        "cust_project_id": {
+            "regex": "([a-zA-Z]{3})-([a-zA-Z]{2})-([a-zA-Z]{1}[0-9]{5})-([0-9]{3})"
+        }
+    }
+}

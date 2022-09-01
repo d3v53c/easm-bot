@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 import { DialogTestClient, DialogTestLogger } from 'botbuilder-testing';
-import { DateResolverDialog } from '../../dialogs/dateResolverDialog';
+import { DateResolverDialog } from '../../dialogs/date';
 const assert = require('assert');
 
 describe('DateResolverDialog', () => {

@@ -11,7 +11,7 @@ import {
     WaterfallDialog,
     WaterfallStepContext
 } from 'botbuilder-dialogs';
-import { CancelAndHelpDialog } from './cancelAndHelpDialog';
+import { CancelAndHelpDialog } from './cancel';
 
 const DATETIME_PROMPT = 'datetimePrompt';
 const WATERFALL_DIALOG = 'waterfallDialog';

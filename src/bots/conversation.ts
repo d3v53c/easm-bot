@@ -3,7 +3,7 @@
 
 import { ActivityHandler, BotState, ConversationState, StatePropertyAccessor, UserState } from 'botbuilder';
 import { Dialog, DialogState } from 'botbuilder-dialogs';
-import { MainDialog } from '../dialogs/mainDialog';
+import { MainDialog } from '../dialogs/main';
 
 export class DialogBot extends ActivityHandler {
     private conversationState: BotState;

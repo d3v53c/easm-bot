@@ -5,7 +5,7 @@
 import { MessageFactory } from 'botbuilder';
 import { TextPrompt, WaterfallDialog } from 'botbuilder-dialogs';
 import { DialogTestClient, DialogTestLogger } from 'botbuilder-testing';
-import { CancelAndHelpDialog } from '../../dialogs/cancelAndHelpDialog';
+import { CancelAndHelpDialog } from '../../dialogs/cancel';
 const assert = require('assert');
 
 /**

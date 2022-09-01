@@ -3,12 +3,12 @@
  * Licensed under the MIT License.
  */
 import { DialogTestClient, DialogTestLogger } from 'botbuilder-testing';
-import { BookingDialog } from '../../dialogs/bookingDialog';
+import { AccessRequestDialog } from '../../dialogs/access';
 const assert = require('assert');
 
-describe('BookingDialog', () => {
+describe('AccessRequestDialog', () => {
     const testCases = require('./testData/bookingDialogTestCases');
-    const sut = new BookingDialog('bookingDialog');
+    const sut = new AccessRequestDialog('bookingDialog');
 
     testCases.map((testData) => {
         it(testData.name, async () => {

@@ -3,8 +3,8 @@
 
 import { BotState, CardFactory } from 'botbuilder';
 import { Dialog, DialogState } from 'botbuilder-dialogs';
-import { MainDialog } from '../dialogs/mainDialog';
-import { DialogBot } from './dialogBot';
+import { MainDialog } from '../dialogs/main';
+import { DialogBot } from './conversation';
 
 const WelcomeCard = require('../../resources/welcome.json');
 
