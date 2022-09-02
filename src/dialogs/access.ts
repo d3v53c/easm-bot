@@ -12,8 +12,9 @@ import {
     WaterfallDialog,
     WaterfallStepContext
 } from 'botbuilder-dialogs';
-import { BookingDetails } from './context';
+import { RequestContext } from './context';
 import { CancelAndHelpDialog } from './cancel';
+import { RequestType } from '../enums';
 
 const CONFIRM_PROMPT = 'confirmPrompt';
 const DATE_RESOLVER_DIALOG = 'dateResolverDialog';
@@ -41,15 +42,14 @@ export class AccessRequestDialog extends CancelAndHelpDialog {
      * If a destination city has not been provided, prompt for one.
      */
     private async customerProjectIDStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
-        const context = stepContext.options as BookingDetails;
-        console.log({ context }, "customerProjectIDStep")
+        const context = stepContext.options as RequestContext;
 
-        if (!context.destination) {
+        if (!context.cust_project_id) {
             const messageText = 'Enter Project ID :';
             const msg = MessageFactory.text(messageText, messageText, InputHints.ExpectingInput);
             return await stepContext.prompt(TEXT_PROMPT, { prompt: msg });
         } else {
-            return await stepContext.next(context.destination);
+            return await stepContext.next(context.cust_project_id);
         }
     }
 
@@ -57,18 +57,19 @@ export class AccessRequestDialog extends CancelAndHelpDialog {
      * If an origin city has not been provided, prompt for one.
      */
     private async requestTypeStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
-        const context = stepContext.options as BookingDetails;
+        const context = stepContext.options as RequestContext;
+        console.log('MainDialog.requestTypeStep', stepContext.result);
 
         // Capture the response to the previous step's prompt
-        context.destination = stepContext.result;
-        if (!context.origin) {
+        context.cust_project_id = stepContext.result;
+        if (!context.request_type) {
             const options = {
                 choices: this.getChoices(),
                 prompt: 'Please enter your type of request.',
             };
             return await stepContext.prompt(CHOICE_PROMPT, options);
         } else {
-            return await stepContext.next(context.origin);
+            return await stepContext.next(context.request_type);
         }
     }
 
@@ -77,19 +78,31 @@ export class AccessRequestDialog extends CancelAndHelpDialog {
      * This will use the DATE_RESOLVER_DIALOG.
      */
     public async parseRequestTypeStep(stepContext: WaterfallStepContext) {
-        const context = stepContext.options as BookingDetails;
-        console.log('MainDialog.showCardStep');
+        const context = stepContext.options as RequestContext;
+        console.log('MainDialog.parseRequestTypeStep', stepContext.result);
 
-        switch (stepContext.result.value) {
-            case 'Tracker':
-                await stepContext.context.sendActivity('Testing Tracker');
+        switch (stepContext.result) {
+            case RequestType.ACCESS_TRACKER:
+                await stepContext.context.sendActivity('Testing ACCESS_TRACKER');
+                break;
+            case RequestType.ACCESS_REPORT:
+                await stepContext.context.sendActivity('Testing ACCESS_REPORT');
+                break;
+            case RequestType.TRACKER_STATUS:
+                await stepContext.context.sendActivity('Testing TRACKER_STATUS');
+                break;
+            case RequestType.REPORT_STATUS:
+                await stepContext.context.sendActivity('Testing REPORT_STATUS');
+                break;
+            case RequestType.REQUEST_REVALIDATION:
+                await stepContext.context.sendActivity('Testing REQUEST_REVALIDATION');
                 break;
             default:
                 break;
         }
 
         // Give the user instructions about what to do next
-        await stepContext.context.sendActivity('Type anything to see another card.');
+        await stepContext.context.sendActivity('We are verifying your request... Please be patient.');
 
         return await stepContext.next(stepContext.result);
     }
@@ -98,11 +111,10 @@ export class AccessRequestDialog extends CancelAndHelpDialog {
      * Complete the interaction and end the dialog.
      */
     private async finalStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
-        const context = stepContext.options as BookingDetails;
         if (stepContext.result) {
-            const bookingDetails = stepContext.options as BookingDetails;
+            const context = stepContext.options as RequestContext;
 
-            return await stepContext.endDialog(bookingDetails);
+            return await stepContext.endDialog(context);
         }
         return await stepContext.endDialog();
     }
